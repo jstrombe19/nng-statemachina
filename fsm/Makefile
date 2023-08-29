@@ -6,7 +6,7 @@ BIN=bin
 LIBS=/usr/local/lib/libnng.a
 SRCS=$(wildcard $(SRC)/*.c)
 OBJS=$(patsubst $(SRC)/*.c, $(OBJ)/*.o, $(SRCS))
-EXE=$(BIN)/fsm_beta
+EXE=$(BIN)/fsm_beta.app
 
 all: $(EXE) 
 
