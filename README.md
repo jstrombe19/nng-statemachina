@@ -19,27 +19,27 @@ execution and decision-making based on parameters provided. The inspiration behi
 [Curiosity](https://www.jpl.nasa.gov/missions/mars-science-laboratory-curiosity-rover-msl) rover, sent to Mars in 2012.
 
 Current punchlist items are as follows:
-[] Create a baseline supervisory application
-[] Create a dependent application template
-[] Create multiple dependent applications
-[] Create unique telemetry data points for each dependent application
-[] Create the stateful awareness of each dependent application in the supervisory application
-[] Break the dependent applications' req/resp handler into a dedicated thread to free up its execution
-[] Generate telemetry data from each application
-[] Tie telemetry data points to a config file
-[] Tie the socket handle to a config file
-[] Explore pub/sub and two-way radio protocols
-[] Incorporate spdlog
-[] Incorporate file processing
-[] Incorporate file encryption (that can be enabled/disabled)
-[] Incorporate a GUI that exposes the state of all applications
-[] Create a schedule manager (wrapper for [cron](https://opensource.com/article/22/3/scheduling-tasks-linux-cron) / [systemd](https://trstringer.com/systemd-timer-vs-cronjob/) / <>)
-[] Export logging on a regular cadence
-[] Incorporate GPS/GNSS
+[] Create a baseline supervisory application  
+[] Create a dependent application template  
+[] Create multiple dependent applications  
+[] Create unique telemetry data points for each dependent application  
+[] Create the stateful awareness of each dependent application in the supervisory application  
+[] Break the dependent applications' req/resp handler into a dedicated thread to free up its execution  
+[] Generate telemetry data from each application  
+[] Tie telemetry data points to a config file  
+[] Tie the socket handle to a config file  
+[] Explore pub/sub and two-way radio protocols  
+[] Incorporate spdlog  
+[] Incorporate file processing  
+[] Incorporate file encryption (that can be enabled/disabled)  
+[] Incorporate a GUI that exposes the state of all applications  
+[] Create a schedule manager (wrapper for [cron](https://opensource.com/article/22/3/scheduling-tasks-linux-cron) / [systemd](https://trstringer.com/systemd-timer-vs-cronjob/) / <>)  
+[] Export logging on a regular cadence  
+[] Incorporate GPS/GNSS  
 
 
 ##### STRETCH GOALS
 
-[] Cross-compile for Raspberry Pi 4
-[] Cross-compile for Dragonboard 410C
-[] Cross-compile for Beaglebone AI
+[] Cross-compile for Raspberry Pi 4  
+[] Cross-compile for Dragonboard 410C  
+[] Cross-compile for Beaglebone AI  
