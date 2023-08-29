@@ -58,7 +58,8 @@ int tars_reqrep_nng_node (const char *url) {
 int main (void) {
     printf("Hello, world from app1 main!\n");
 
-    tars_reqrep_nng_node("ipc:///tmp/reqrep.ipc");
+    // tars_reqrep_nng_node("ipc:///tmp/reqrep.ipc");
+    tars_reqrep_nng_node("tcp://127.0.0.1:4001");
 
     return 0;
 }

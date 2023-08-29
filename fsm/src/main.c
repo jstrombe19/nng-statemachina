@@ -16,7 +16,7 @@ void fatal (const char *function, int return_value) {
     exit(1);
 }
 
-int app1__reqrep_nng_node(const char *url) {
+int app1_reqrep_nng_node(const char *url) {
     nng_socket sock;
     int return_value;
     size_t buffer_size;
@@ -54,7 +54,8 @@ int main (void) {
     sub1();
     sub2();
 
-    app1__reqrep_nng_node("ipc:///tmp/reqrep.ipc");
+    // app1__reqrep_nng_node("ipc:///tmp/reqrep.ipc");
+    app1_reqrep_nng_node("tcp://127.0.0.1:4001");
     return 0;
 }
 
