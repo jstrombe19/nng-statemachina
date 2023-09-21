@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
 
 #include <nng/nng.h>
 #include <nng/protocol/reqrep0/rep.h>
@@ -21,8 +22,9 @@ void fatal (const char *function, int return_value) {
 int app1_reqrep_nng_node(const char *url, int request_type) {
     nng_socket sock;
     int return_value;
-    size_t buffer_size;
+
     char *buffer = NULL;
+    size_t buffer_size;
 
     if ((return_value = nng_req0_open(&sock)) != 0) {
         fatal("nng_socket", return_value);
@@ -57,7 +59,9 @@ int app1_reqrep_nng_node(const char *url, int request_type) {
             fatal("nng_recv", return_value);
         }
 
-        printf("TARS: RECEIVED UPTIME %s\n", buffer);
+        long app1_now = 0;
+        app1_now = *(long*)(buffer);
+        printf("TARS: RECEIVED UPTIME FROM APP1: %ld \n", app1_now);
         nng_free(buffer, buffer_size);
         nng_close(sock);
         
@@ -96,8 +100,16 @@ int main (void) {
     sub1();
     sub2();
 
+    free(s);
+
     // app1__reqrep_nng_node("ipc:///tmp/reqrep.ipc");
-    app1_reqrep_nng_node("tcp://127.0.0.1:4001", 0);
+
+    for (;;) {
+        app1_reqrep_nng_node("tcp://127.0.0.1:4001", 0);
+        sleep(2);
+        app1_reqrep_nng_node("tcp://127.0.0.1:4001", 1);
+        sleep(2);
+    }
     return 0;
 }
 
