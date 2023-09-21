@@ -53,6 +53,8 @@ int tars_reqrep_nng_node (const char *url) {
         }
         nng_free(buffer, buffer_size);
     }
+
+    return 0;
 }
 
 int main (void) {
