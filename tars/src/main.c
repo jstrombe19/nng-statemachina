@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+#include <pthread.h>
 
 #include <nng/nng.h>
 #include <nng/protocol/reqrep0/rep.h>
@@ -19,7 +20,15 @@ void fatal (const char *function, int return_value) {
     exit(1);
 }
 
-int app1_reqrep_nng_node(const char *url, int request_type) {
+void *handle_app1_nng_interface(pthread_t app_pthread_handle, void* tars_state) {
+    /* 
+        This repeatedly checks the request flag in tars_state to determine both when a 
+        request should be sent and which request should be sent.
+    */
+    pthread_create(&app_pthread_handle, NULL, app1_reqrep_nng_node, tars_state);
+}
+
+void *app1_reqrep_nng_node(const char *url, int request_type, struct tars_state *tars_state) {
     nng_socket sock;
     int return_value;
 
@@ -59,9 +68,8 @@ int app1_reqrep_nng_node(const char *url, int request_type) {
             fatal("nng_recv", return_value);
         }
 
-        long app1_now = 0;
-        app1_now = *(long*)(buffer);
-        printf("TARS: RECEIVED UPTIME FROM APP1: %ld \n", app1_now);
+        tars_state->app1_start_time = *(long *)(buffer);
+        printf("TARS: RECEIVED UPTIME FROM APP1: %ld \n", tars_state->app1_start_time);
         nng_free(buffer, buffer_size);
         nng_close(sock);
         
@@ -94,20 +102,24 @@ int app1_reqrep_nng_node(const char *url, int request_type) {
 
 int main (void) {
     printf("Hello, world from main!\n");
-
-    char *s = (void *)malloc(100);
+    pthread_t app1_nng_handle;
+    struct tars_state tars_state = {
+        .app1_current_state = 0,
+        .app1_last_heartbeat_timestamp = 0,
+        .app1_request_flag = 0,
+        .app1_start_time = 0,
+        .app1_uptime = 0
+    };
 
     sub1();
     sub2();
 
-    free(s);
-
     // app1__reqrep_nng_node("ipc:///tmp/reqrep.ipc");
 
     for (;;) {
-        app1_reqrep_nng_node("tcp://127.0.0.1:4001", 0);
+        app1_reqrep_nng_node("tcp://127.0.0.1:4001", 0, &tars_state);
         sleep(2);
-        app1_reqrep_nng_node("tcp://127.0.0.1:4001", 1);
+        app1_reqrep_nng_node("tcp://127.0.0.1:4001", 1, &tars_state);
         sleep(2);
     }
     return 0;
